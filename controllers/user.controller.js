@@ -159,7 +159,7 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true,
+        httpOnly: false,
         sameSite: "lax", // or "none" if using cross-site and HTTPS
         secure: process.env.NODE_ENV === "production", // ensures cookie is only sent over HTTPS in production
       })
