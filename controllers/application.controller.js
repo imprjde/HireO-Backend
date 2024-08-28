@@ -5,7 +5,7 @@ import axios from "axios";
 import { Fcm } from "../models/fcm.model.js";
 
 export const applyJob = async (req, res) => {
-  console.log("APPLY JOB RUNNING", req.body);
+  console.log("APPLY JOB RUNNING", req.id);
   try {
     const userId = req.id;
     const { id: jobId } = req.params;
