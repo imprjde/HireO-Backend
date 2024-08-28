@@ -19,9 +19,13 @@ connectDB();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  credentials: true,
+};
+
 // middleware
-// app.use(cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(urlencoded({ extended: true }));
