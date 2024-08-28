@@ -160,8 +160,8 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "Strict", // or "Lax" or "None"
-        secure: true, // ensure secure is true if using "None"
+        secure: process.env.NODE_ENV === "production", // Use secure in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       })
       .json({
         message: `Welcome Back ${user.fullname}`,
