@@ -143,10 +143,10 @@ export const login = async (req, res) => {
     const tokenData = {
       userId: user._id,
     };
-    // const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-    //   expiresIn: "1d",
-    // });
-    const token = await jwt.sign(tokenData, process.env.SECRET_KEY);
+    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+    // const token = await jwt.sign(tokenData, process.env.SECRET_KEY);
 
     user = {
       _id: user._id,
@@ -160,8 +160,8 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        // sameSite: "strict",
-        sameSite: "None",
+        sameSite: "Strict", // or "Lax" or "None"
+        secure: true, // ensure secure is true if using "None"
       })
       .json({
         message: `Welcome Back ${user.fullname}`,
