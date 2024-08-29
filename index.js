@@ -26,7 +26,6 @@ const corsOptions = {
 
 // middleware
 app.use(cors(corsOptions));
-app.set("trust proxy", 1);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(urlencoded({ extended: true }));
