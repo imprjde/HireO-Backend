@@ -121,6 +121,118 @@ export const getApplicants = async (req, res) => {
   }
 };
 
+// export const updateStatus = async (req, res) => {
+//   try {
+//     const {
+//       userId,
+//       status,
+//       applicantEmail,
+//       applicantName,
+//       belongsToUserId,
+//       jobId,
+//       type,
+//       companyId,
+//     } = req.body;
+//     const applicationId = req.params.id;
+
+//     if (!status) {
+//       return res.status(400).json({
+//         message: "Status is required",
+//         success: false,
+//       });
+//     }
+
+//     const application = await Application.findById(applicationId);
+//     if (!application) {
+//       return res.status(404).json({
+//         message: "Application not found.",
+//         success: false,
+//       });
+//     }
+
+//     const jobInfo = await Job.findById(application.job).populate("company");
+//     const companyInfo = jobInfo?.company;
+
+//     application.status = status.toLowerCase();
+//     await application.save();
+
+//     // Create the email content based on status
+//     const emailContent =
+//       status.toLowerCase() === "accepted"
+//         ? `
+//         <p>Dear <strong>${applicantName}</strong>,</p>
+//         <p>Thank you for applying for the <strong>${jobInfo?.title}</strong> at <strong>${companyInfo?.name}</strong>. We’re thrilled to inform you that we would like to move forward with your application!.</p>
+//         <p>Your skills and experience impressed us, and we believe you’d be a great fit for our team. Our next step will be to provide details about the next steps, such as scheduling an interview, providing additional information, etc.</p>
+//         <p>Please look out for further instructions from us soon. We’re excited about the possibility of you joining <strong>${companyInfo?.name}</strong>!</p>
+//         <p>Best regards,<br>Team <strong>HireO</strong></p>
+//       `
+//         : `
+//         <p>Dear <strong>${applicantName}</strong>,</p>
+//         <p>Thank you for applying for the <strong>${jobInfo?.title}</strong> at <strong>${companyInfo?.name}</strong>. We appreciate your interest and the effort you put into your application.</p>
+//         <p>After careful review, we’ve decided to move forward with other candidates. This decision was difficult given the high quality of applications we received.</p>
+//         <p>We encourage you to apply for future openings that match your skills. Best of luck in your job search!</p>
+//         <p>Best regards,<br>Team <strong>HireO</strong></p>
+//       `;
+
+//     const transporter = nodemailer.createTransport({
+//       service: "gmail",
+//       auth: {
+//         user: process.env.EMAIL_USERNAME,
+//         pass: process.env.EMAIL_PASSWORD,
+//       },
+//     });
+
+//     const mailOptions = {
+//       from: process.env.EMAIL_USERNAME,
+//       to: applicantEmail,
+//       subject: "Job Application Status Update",
+//       html: emailContent,
+//     };
+
+//     await transporter.sendMail(mailOptions);
+
+//     // Sending In-App Notification to Applicant
+//     await axios.post(
+//       `http://localhost:8000/api/v1/notification/post-notification`,
+//       { userId: belongsToUserId, jobId, type, companyId },
+//       { withCredentials: true }
+//     );
+
+//     // Sending Push Notification to Applicant
+//     const notificationMessage =
+//       status.toLowerCase() === "accepted"
+//         ? `Congratulations! Your application for ${jobInfo?.title} at ${companyInfo?.name} has been accepted`
+//         : `We're sorry to inform you that your application for ${jobInfo?.title} at ${companyInfo?.name} has been rejected`;
+
+//     const fcmData = await Fcm.findOne({ userId });
+
+//     if (fcmData) {
+//       const notifyConfig = {
+//         token: fcmData.token,
+//         title: `Application ${status}`,
+//         body: notificationMessage,
+//       };
+
+//       await axios.post(
+//         "http://localhost:8000/api/v1/pushNotification/send-notification",
+//         notifyConfig
+//       );
+//     }
+
+//     return res.status(200).json({
+//       message:
+//         "The status was updated successfully. The applicant has been notified via email and received a notification.",
+//       success: true,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       message: "Failed to update status",
+//       success: false,
+//     });
+//   }
+// };
+
 export const updateStatus = async (req, res) => {
   try {
     const {
@@ -156,7 +268,6 @@ export const updateStatus = async (req, res) => {
     application.status = status.toLowerCase();
     await application.save();
 
-    // Create the email content based on status
     const emailContent =
       status.toLowerCase() === "accepted"
         ? `
@@ -193,7 +304,8 @@ export const updateStatus = async (req, res) => {
 
     // Sending In-App Notification to Applicant
     await axios.post(
-      `http://localhost:8000/api/v1/notification/post-notification`,
+      // `http://localhost:8000/api/v1/notification/post-notification`,
+      `${process.env.API_BASE_URL}/notification/post-notification`,
       { userId: belongsToUserId, jobId, type, companyId },
       { withCredentials: true }
     );
@@ -213,10 +325,15 @@ export const updateStatus = async (req, res) => {
         body: notificationMessage,
       };
 
-      await axios.post(
-        "http://localhost:8000/api/v1/pushNotification/send-notification",
-        notifyConfig
-      );
+      try {
+        await axios.post(
+          // "http://localhost:8000/api/v1/pushNotification/send-notification",
+          `${process.env.API_BASE_URL}/pushNotification/send-notification`,
+          notifyConfig
+        );
+      } catch (error) {
+        console.log("ERROR JI:", error);
+      }
     }
 
     return res.status(200).json({
