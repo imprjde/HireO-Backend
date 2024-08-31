@@ -161,7 +161,7 @@ export const login = async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true, // Ensure your site is served over HTTPS
-        sameSite: 'None', // Use 'None' since frontend and backend are on different domains
+        sameSite: "None", // Use 'None' since frontend and backend are on different domains
       })
       .json({
         message: `Welcome Back ${user.fullname}`,
@@ -186,6 +186,83 @@ export const logout = async (req, res) => {
   }
 };
 
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const { fullname, email, phoneNumber, bio, skills } = req.body;
+
+//     const file = req.files?.file?.[0];
+//     const profilePhoto = req.files?.profilePhoto?.[0];
+
+//     let cloudResponse = null;
+//     let profilePhotoResponse = null;
+
+//     if (file) {
+//       const fileUri = getDataUri(file);
+//       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+//     }
+
+//     if (profilePhoto) {
+//       const profilePhotoUri = getDataUri(profilePhoto);
+//       profilePhotoResponse = await cloudinary.uploader.upload(
+//         profilePhotoUri.content
+//       );
+//     }
+
+//     if (!fullname || !email || !phoneNumber || !bio || !skills) {
+//       return res
+//         .status(400)
+//         .json({ message: "Please fill all the fields.", success: false });
+//     }
+
+//     const skillsArray = skills.split(",");
+//     const userId = req.id;
+
+//     let user = await User.findById(userId);
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ message: "User not found", success: false });
+//     }
+
+//     if (fullname) user.fullname = fullname;
+//     if (email) user.email = email;
+//     if (phoneNumber) user.phoneNumber = phoneNumber;
+//     if (bio) user.profile.bio = bio;
+//     if (skills) user.profile.skills = skillsArray;
+
+//     if (cloudResponse) {
+//       user.profile.resume = cloudResponse.secure_url;
+//       user.profile.resumeOriginalName = file.originalname;
+//     }
+
+//     if (profilePhotoResponse) {
+//       user.profile.profilePhoto = profilePhotoResponse.secure_url;
+//     }
+//     if (!profilePhoto && !req?.body?.profilePhoto) {
+//       user.profile.profilePhoto = "";
+//     }
+
+//     await user.save();
+
+//     user = {
+//       _id: user._id,
+//       fullname: user.fullname,
+//       email: user.email,
+//       phoneNumber: user.phoneNumber,
+//       role: user.role,
+//       profile: user.profile,
+//     };
+
+//     return res.status(200).json({
+//       message: "Profile updated successfully.",
+//       user,
+//       success: true,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({ message: "Server error", success: false });
+//   }
+// };
+
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
@@ -208,13 +285,30 @@ export const updateProfile = async (req, res) => {
       );
     }
 
-    if (!fullname || !email || !phoneNumber || !bio || !skills) {
+    if (!fullname || !email || !phoneNumber) {
+      console.log({ message: "Please fill all the fields.", success: false });
       return res
         .status(400)
         .json({ message: "Please fill all the fields.", success: false });
     }
 
-    const skillsArray = skills.split(",");
+    // if (phoneNumber?.length !== 10) {
+    //   return res.status(400).json({
+    //     message: "Please enter a valid phone number with exactly 10 digits.",
+    //     success: false,
+    //   });
+    // }
+    if (!skills) {
+      return res.status(400).json({
+        message:
+          "Oops! It looks like you haven't added any skills yet. Please share your skills to enhance your profile.",
+        success: false,
+      });
+    }
+    let skillsArray;
+    if (skills) {
+      skillsArray = skills.split(",");
+    }
     const userId = req.id;
 
     let user = await User.findById(userId);
@@ -225,9 +319,9 @@ export const updateProfile = async (req, res) => {
     }
 
     if (fullname) user.fullname = fullname;
-    if (email) user.email = email;
+    if (email) user.email = email?.toLowerCase();
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    if (bio) user.profile.bio = bio;
+    user.profile.bio = bio || "";
     if (skills) user.profile.skills = skillsArray;
 
     if (cloudResponse) {
@@ -259,6 +353,7 @@ export const updateProfile = async (req, res) => {
       success: true,
     });
   } catch (error) {
+    console.log("ERROR MANNI:", error);
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
