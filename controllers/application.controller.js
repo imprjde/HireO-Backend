@@ -233,6 +233,8 @@ export const getApplicants = async (req, res) => {
 //   }
 // };
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
 export const updateStatus = async (req, res) => {
   try {
     const {
@@ -304,7 +306,6 @@ export const updateStatus = async (req, res) => {
 
     // Sending In-App Notification to Applicant
     await axios.post(
-      // `http://localhost:8000/api/v1/notification/post-notification`,
       `${process.env.API_BASE_URL}/notification/post-notification`,
       { userId: belongsToUserId, jobId, type, companyId },
       { withCredentials: true }
@@ -326,13 +327,13 @@ export const updateStatus = async (req, res) => {
       };
 
       try {
+        console.log("TRY CATCH RECHED", notifyConfig);
         await axios.post(
-          // "http://localhost:8000/api/v1/pushNotification/send-notification",
           `${process.env.API_BASE_URL}/pushNotification/send-notification`,
           notifyConfig
         );
       } catch (error) {
-        console.log("ERROR JI:", error);
+        // console.log("ERROR JI:", error);
       }
     }
 

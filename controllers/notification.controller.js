@@ -112,5 +112,3 @@ export const updateHasSeen = async (req, res) => {
     });
   }
 };
-
-

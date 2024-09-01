@@ -154,6 +154,7 @@ export const login = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       role: user.role,
+      isFcmPosted: user.isFcmPosted,
       profile: user.profile,
     };
     return res
