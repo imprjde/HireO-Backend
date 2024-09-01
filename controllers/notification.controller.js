@@ -60,7 +60,6 @@ export const getNotification = async (req, res) => {
     });
   } catch (error) {
     console.log("error=", error);
-    console.log(error);
     return res.status(500).json({
       message: "Failed to fetch your notifications.",
       success: false,

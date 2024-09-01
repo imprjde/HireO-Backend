@@ -6,6 +6,72 @@ import cloudinary from "../utils/cloudinary.js";
 import nodemailer from "nodemailer";
 import axios from "axios";
 
+// export const register = async (req, res) => {
+//   try {
+//     const { fullname, email, phoneNumber, password, role } = req.body;
+//     if (!fullname || !email || !phoneNumber || !password || !role) {
+//       return res
+//         .status(400)
+//         .json({ message: "All fields are required", success: false });
+//     }
+//     const file = req.files?.file?.[0];
+//     let cloudResponse;
+//     if (file) {
+//       const fileUri = getDataUri(file);
+//       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+//     }
+
+//     const user = await User.findOne({ email });
+//     if (user)
+//       return res.status(400).json({
+//         message: "User already exist with this email",
+//         success: false,
+//       });
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     let newUser = await User.create({
+//       fullname,
+//       email: email?.toLowerCase(),
+//       phoneNumber,
+//       password: hashedPassword,
+//       role,
+//       profile: {
+//         profilePhoto: cloudResponse?.secure_url,
+//       },
+//     });
+
+//     await axios.post(
+//       `http://localhost:8000/api/v1/notification/post-notification`,
+//       {
+//         userId: newUser?._id,
+//         fullname: newUser?.fullname,
+//         type: "welcome",
+//       }
+//     );
+
+//     await axios.post(
+//       `http://localhost:8000/api/v1/notification/post-notification`,
+//       {
+//         userId: newUser?._id,
+//         type: "setup",
+//       }
+//     );
+
+//     return res.status(201).json({
+//       message: "Account created successfully.",
+//       success: true,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ message: "Server error", success: false });
+//   }
+// };
+
+console.log("");
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
@@ -21,8 +87,8 @@ export const register = async (req, res) => {
       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     }
 
-    const user = await User.findOne({ email });
-    if (user)
+    const checkUser = await User.findOne({ email });
+    if (checkUser)
       return res.status(400).json({
         message: "User already exist with this email",
         success: false,
@@ -32,7 +98,7 @@ export const register = async (req, res) => {
 
     let newUser = await User.create({
       fullname,
-      email,
+      email: email?.toLowerCase(),
       phoneNumber,
       password: hashedPassword,
       role,
@@ -58,15 +124,40 @@ export const register = async (req, res) => {
       }
     );
 
-    return res.status(201).json({
-      message: "Account created successfully.",
-      success: true,
-    });
+    let tokenData = {
+      userId: newUser?._id,
+    };
+    let token = await jwt.sign(tokenData, process.env.SECRET_KEY);
+
+    let user = {
+      _id: newUser._id,
+      fullname: newUser.fullname,
+      email: newUser.email,
+      phoneNumber: newUser.phoneNumber,
+      role: newUser.role,
+      isFcmPosted: newUser.isFcmPosted,
+      profile: newUser.profile,
+    };
+
+    return res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
+      .json({
+        message: `Welcome to HireO ${newUser.fullname}`,
+        user,
+        success: true,
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // export const login = async (req, res) => {
 //   try {
@@ -293,12 +384,6 @@ export const updateProfile = async (req, res) => {
         .json({ message: "Please fill all the fields.", success: false });
     }
 
-    // if (phoneNumber?.length !== 10) {
-    //   return res.status(400).json({
-    //     message: "Please enter a valid phone number with exactly 10 digits.",
-    //     success: false,
-    //   });
-    // }
     if (!skills) {
       return res.status(400).json({
         message:
