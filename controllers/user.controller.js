@@ -435,7 +435,7 @@ export const register = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
         sameSite: "None",
         maxAge: 2 * 60 * 1000,
