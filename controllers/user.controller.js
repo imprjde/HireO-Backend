@@ -419,7 +419,7 @@ export const register = async (req, res) => {
       userId: newUser?._id,
     };
     let token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "2m",
+      expiresIn: "1h",
     });
 
     let user = {
@@ -438,7 +438,7 @@ export const register = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        maxAge: 2 * 60 * 1000,
+        maxAge: 1 * 60 * 60 * 1000,
       })
 
       .json({
@@ -479,7 +479,7 @@ export const login = async (req, res) => {
     //   expiresIn: "1d",
     // });
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "2m",
+      expiresIn: "1h",
     });
 
     user = {
@@ -492,14 +492,13 @@ export const login = async (req, res) => {
       profile: user.profile,
     };
 
-    console.log("TOKEN SENT WITH 2 MINUTE VALIDITY");
     return res
       .status(200)
       .cookie("token", token, {
         httpOnly: true, //make this true while pushing code to production
         secure: true,
         sameSite: "None",
-        maxAge: 2 * 60 * 1000,
+        maxAge: 1 * 60 * 60 * 1000,
         // expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // Set to expire in 15 days
       })
       .json({
