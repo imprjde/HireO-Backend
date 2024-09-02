@@ -68,6 +68,7 @@ export const applyJob = async (req, res) => {
 };
 
 export const getAppliedJobs = async (req, res) => {
+  console.log("$$$$$ALAAAH GET APPLIED JOBS RUNNING$$$$$");
   try {
     const userId = req.id;
     const application = await Application.find({ applicant: userId })

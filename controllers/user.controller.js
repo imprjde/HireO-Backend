@@ -438,7 +438,8 @@ export const register = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        maxAge: 1 * 60 * 60 * 1000,
+        // maxAge: 1 * 60 * 60 * 1000,
+        expires: new Date(Date.now() + 3600000),
       })
 
       .json({
@@ -498,8 +499,8 @@ export const login = async (req, res) => {
         httpOnly: true, //make this true while pushing code to production
         secure: true,
         sameSite: "None",
-        maxAge: 1 * 60 * 60 * 1000,
-        // expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // Set to expire in 15 days
+        // maxAge: 1 * 60 * 60 * 1000,
+        expires: new Date(Date.now() + 3600000),
       })
       .json({
         message: `Welcome Back ${user.fullname}`,
