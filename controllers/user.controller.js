@@ -435,8 +435,8 @@ export const register = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true,
-        secure: false,
+        httpOnly: false,
+        secure: true,
         sameSite: "None",
         maxAge: 5 * 60 * 1000, //5 min
         // maxAge: 60 * 60 * 1000, //1 hr
@@ -496,8 +496,8 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true, //make this true while pushing code to production
-        secure: false,
+        httpOnly: false, //make this true while pushing code to production
+        secure: true,
         sameSite: "None",
         maxAge: 5 * 60 * 1000, //5 min
         maxAge: 60 * 60 * 1000, // 1 Hour
