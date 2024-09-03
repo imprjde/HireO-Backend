@@ -435,12 +435,11 @@ export const register = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: false,
         sameSite: "None",
         maxAge: 5 * 60 * 1000, //5 min
         // maxAge: 60 * 60 * 1000, //1 hr
-        // expires: new Date(Date.now() + 3600000),
       })
 
       .json({
@@ -497,15 +496,14 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: false, //make this true while pushing code to production
+        httpOnly: true, //make this true while pushing code to production
         secure: false,
         sameSite: "None",
         maxAge: 5 * 60 * 1000, //5 min
         maxAge: 60 * 60 * 1000, // 1 Hour
-        // expires: new Date(Date.now() + 3600000),
       })
       .json({
-        message: `Welcome Back ${user.fullname}`,
+        message: `Welcome Back ${user.fullname} xhwT`,
         user,
         token,
         success: true,
