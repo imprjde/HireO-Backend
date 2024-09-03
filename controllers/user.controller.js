@@ -419,7 +419,7 @@ export const register = async (req, res) => {
       userId: newUser?._id,
     };
     let token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "9h",
     });
 
     let user = {
@@ -439,8 +439,8 @@ export const register = async (req, res) => {
         secure: true,
         sameSite: "None",
         // maxAge: 5 * 60 * 1000, //5 min
-        maxAge: 60 * 60 * 1000, // 60m = 1h
-        // maxAge: 60 * 60 * 1000, //1 hr
+        // maxAge: 60 * 60 * 1000, // 60m = 1h
+        maxAge: 540 * 60 * 1000, // 540 mins = 9 hrs
       })
 
       .json({
@@ -479,7 +479,7 @@ export const login = async (req, res) => {
     };
 
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "9h",
     });
 
     user = {
@@ -499,11 +499,11 @@ export const login = async (req, res) => {
         secure: true,
         sameSite: "None",
         // maxAge: 5 * 60 * 1000, //5 min
-        maxAge: 60 * 60 * 1000, // 60m = 1h
-        // maxAge: 60 * 60 * 1000, // 1 Hour
+        // maxAge: 60 * 60 * 1000, // 60m = 1h
+        maxAge: 540 * 60 * 1000, // 540 mins = 9 hrs
       })
       .json({
-        message: `Welcome Back ${user.fullname} JIII`,
+        message: `Welcome Back ${user.fullname} BABU SAHI`,
         user,
         token,
         success: true,
