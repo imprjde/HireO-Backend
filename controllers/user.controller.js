@@ -419,7 +419,7 @@ export const register = async (req, res) => {
       userId: newUser?._id,
     };
     let token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "5m",
     });
 
     let user = {
@@ -435,11 +435,11 @@ export const register = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
+        httpOnly: false,
+        secure: false,
         sameSite: "None",
-        // maxAge: 1 * 60 * 60 * 1000,
-        maxAge: 60 * 60 * 1000,
+        maxAge: 5 * 60 * 1000, //5 min
+        // maxAge: 60 * 60 * 1000, //1 hr
         // expires: new Date(Date.now() + 3600000),
       })
 
@@ -481,7 +481,7 @@ export const login = async (req, res) => {
     //   expiresIn: "1d",
     // });
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "5m",
     });
 
     user = {
@@ -497,10 +497,10 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true, //make this true while pushing code to production
-        secure: true,
+        httpOnly: false, //make this true while pushing code to production
+        secure: false,
         sameSite: "None",
-        // maxAge: 1 * 60 * 60 * 1000,
+        maxAge: 5 * 60 * 1000, //5 min
         maxAge: 60 * 60 * 1000, // 1 Hour
         // expires: new Date(Date.now() + 3600000),
       })
