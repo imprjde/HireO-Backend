@@ -68,7 +68,9 @@ export const getNotification = async (req, res) => {
 };
 
 export const getNotificationCount = async (req, res) => {
-  console.log("getNotificationCount API RUNNING");
+  console.log(
+    "-----------------getNotificationCount API RUNNING-----------------"
+  );
   const { userId } = req.query;
 
   try {

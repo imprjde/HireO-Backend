@@ -15,6 +15,7 @@ export const saveJob = async (req, res) => {
   }
 };
 export const getSavedJobs = async (req, res) => {
+  console.log("GET $AVED JOB API RUNNING");
   const { created_by } = req.query;
   try {
     const savedJobs = await Saved.find({ created_by }).populate({
@@ -37,7 +38,6 @@ export const getSavedJobs = async (req, res) => {
 
 export const removeSaved = async (req, res) => {
   const { Id } = req.query;
-  console.log(Id);
   try {
     await Saved.findByIdAndDelete(Id);
     return res.status(201).json({
