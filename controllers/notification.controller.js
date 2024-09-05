@@ -35,7 +35,9 @@ export const postNotification = async (req, res) => {
 };
 
 export const getNotification = async (req, res) => {
-  console.log("GET NOTIFICATON API RUNNING");
+  let count = 0;
+  count = count + 1;
+  console.log(count, "GET NOTIFICATON API RUNNING");
   const { userId } = req.query;
 
   try {
@@ -46,7 +48,8 @@ export const getNotification = async (req, res) => {
       .populate({
         path: "jobId",
       })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(10);
 
     if (notifications?.length === 0) {
       return res.status(200).json({
@@ -68,9 +71,8 @@ export const getNotification = async (req, res) => {
 };
 
 export const getNotificationCount = async (req, res) => {
-  console.log(
-    "-----------------getNotificationCount API RUNNING-----------------"
-  );
+  console.log("XXXXXXXXXXXX--getNotificationCount API RUNNING--XXXXXXXXXXXXXX");
+
   const { userId } = req.query;
 
   try {
@@ -96,7 +98,6 @@ export const getNotificationCount = async (req, res) => {
 export const updateHasSeen = async (req, res) => {
   console.log("UPDATE HAS SEEN RUNNING");
   const { userId } = req.body;
-  console.log("userId====", userId);
 
   try {
     await Notification.updateMany(
