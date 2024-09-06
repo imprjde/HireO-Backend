@@ -6,6 +6,7 @@ import {
   resetPassword,
   sendEmail,
   submitNewPassword,
+  updateOnBoarded,
   updateProfile,
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../auth/isAuthenticated.js";
@@ -22,5 +23,6 @@ router
 router.route("/get-link").post(sendEmail);
 router.get("/resetpassword/:id/:token", resetPassword);
 router.post("/resetpassword/:id/:token", submitNewPassword);
+router.put("/:id/update-onboard", updateOnBoarded);
 
 export default router;

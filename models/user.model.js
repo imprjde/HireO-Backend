@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    hasOnboarded: {
+      type: Boolean,
+      default: false,
+    },
     profile: {
       bio: { type: String },
       skills: [{ type: String }],

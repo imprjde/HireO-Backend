@@ -35,9 +35,7 @@ export const postNotification = async (req, res) => {
 };
 
 export const getNotification = async (req, res) => {
-  let count = 0;
-  count = count + 1;
-  console.log(count, "GET NOTIFICATON API RUNNING");
+  console.log("GET NOTIFICATON API RUNNING");
   const { userId } = req.query;
 
   try {
