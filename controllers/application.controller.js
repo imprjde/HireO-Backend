@@ -469,7 +469,6 @@ export const getAppliedJobs = async (req, res) => {
     const totalApplications = await Application.countDocuments({
       applicant: userId,
     });
-    console.log("totalApplications=", totalApplications);
     const application = await Application.find({ applicant: userId })
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -487,9 +486,13 @@ export const getAppliedJobs = async (req, res) => {
         .status(404)
         .json({ message: "No Application Found", success: false });
 
+    console.log("totalApplications=", totalApplications);
+    console.log("application?.length=", application?.length * limit);
+    const hasMore = totalApplications > skip + application.length;
     return res.status(200).json({
       application,
       success: true,
+      hasMore,
     });
   } catch (error) {
     return res.status(500).json({ message: "Failed to get applied jobs" });
