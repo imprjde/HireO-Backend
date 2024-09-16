@@ -311,6 +311,7 @@
 ///////////////////////////// FETCH JOBS API TANSTACK OPTIMIAZATION /////////////////////////////////////
 
 import { Job } from "../models/job.model.js";
+import random from "random";
 
 export const postJob = async (req, res) => {
   try {
@@ -344,6 +345,8 @@ export const postJob = async (req, res) => {
         success: false,
       });
     }
+
+    let randomApplicant = random.int(521, 976);
     const job = await Job.create({
       title,
       description,
@@ -354,6 +357,7 @@ export const postJob = async (req, res) => {
       experienceLevel: experience,
       position,
       company: companyId,
+      dummyApplicants: randomApplicant,
       created_by: userId,
     });
     return res.status(201).json({

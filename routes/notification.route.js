@@ -17,3 +17,4 @@ router
 router.route("/update-notification").put(isAuthenticated, updateHasSeen);
 
 export default router;
+

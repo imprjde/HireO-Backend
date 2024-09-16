@@ -35,7 +35,6 @@ export const postNotification = async (req, res) => {
 };
 
 export const getNotification = async (req, res) => {
-  console.log("GET NOTIFICATON API RUNNING");
   const { userId } = req.query;
 
   try {
@@ -69,8 +68,6 @@ export const getNotification = async (req, res) => {
 };
 
 export const getNotificationCount = async (req, res) => {
-  console.log("XXXXXXXXXXXX--getNotificationCount API RUNNING--XXXXXXXXXXXXXX");
-
   const { userId } = req.query;
 
   try {
@@ -96,6 +93,7 @@ export const getNotificationCount = async (req, res) => {
 export const updateHasSeen = async (req, res) => {
   console.log("UPDATE HAS SEEN RUNNING");
   const { userId } = req.body;
+  console.log("USER ID BHAI", userId);
 
   try {
     await Notification.updateMany(

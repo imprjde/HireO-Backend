@@ -51,6 +51,10 @@ const jobSchema = new mongoose.Schema(
         ref: "Application",
       },
     ],
+    dummyApplicants: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
