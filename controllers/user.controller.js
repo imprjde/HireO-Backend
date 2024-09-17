@@ -366,7 +366,8 @@ import axios from "axios";
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
-    if (!fullname || !email || !phoneNumber || !password || !role) {
+    // if (!fullname || !email || !phoneNumber || !password || !role) {
+    if (!fullname || !email  || !password || !role) {
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
@@ -503,7 +504,7 @@ export const login = async (req, res) => {
         maxAge: 1440 * 60 * 1000, // 24 hours
       })
       .json({
-        message: `Welcome Back ${user.fullname} !!x `,
+        message: `Welcome Back ${user.fullname}  `,
         user,
         token,
         success: true,
