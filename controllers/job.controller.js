@@ -414,7 +414,7 @@ export const getAllJobs = async (req, res) => {
 };
 
 export const getJobById = async (req, res) => {
-  console.log("GOVINDA");
+  
   try {
     const jobId = req.params.id;
     const job = await Job.findById(jobId)
@@ -470,7 +470,6 @@ export const getJobByLoggedAdminUser = async (req, res) => {
 export const deleteJob = async (req, res) => {
   const { id } = req.params;
 
-  console.log(id);
   try {
     await Job.findByIdAndDelete(id);
     return res

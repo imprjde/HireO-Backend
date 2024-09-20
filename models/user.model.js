@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    fcmToken: {
+      type: String,
+    },
     hasOnboarded: {
       type: Boolean,
       default: false,

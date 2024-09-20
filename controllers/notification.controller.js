@@ -91,9 +91,7 @@ export const getNotificationCount = async (req, res) => {
 };
 
 export const updateHasSeen = async (req, res) => {
-  console.log("UPDATE HAS SEEN RUNNING");
   const { userId } = req.body;
-  console.log("USER ID BHAI", userId);
 
   try {
     await Notification.updateMany(

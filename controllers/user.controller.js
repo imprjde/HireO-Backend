@@ -367,7 +367,7 @@ export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
     // if (!fullname || !email || !phoneNumber || !password || !role) {
-    if (!fullname || !email  || !password || !role) {
+    if (!fullname || !email || !password || !role) {
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
@@ -550,7 +550,6 @@ export const updateProfile = async (req, res) => {
     }
 
     if (!fullname || !email || !phoneNumber) {
-      console.log({ message: "Please fill all the fields.", success: false });
       return res
         .status(400)
         .json({ message: "Please fill all the fields.", success: false });
@@ -611,7 +610,7 @@ export const updateProfile = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log("ERROR MANNI:", error);
+    console.log(error);
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
