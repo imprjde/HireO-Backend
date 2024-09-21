@@ -618,6 +618,7 @@ export const getApplicants = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
   console.log("STATUS CHANGE API RUNNING---");
+  // console.log("SHARRR:", req.body);
   try {
     const {
       userId,
@@ -700,14 +701,16 @@ export const updateStatus = async (req, res) => {
         : `We're sorry to inform you that your application for ${jobInfo?.title} at ${companyInfo?.name} has been rejected`;
 
     const fcmData = await User.findById(belongsToUserId);
+    // console.log("POPOPOP:", fcmData);
 
     if (fcmData) {
       const notifyConfig = {
-        token: fcmData.fcmToken,
+        token: fcmData?.fcmToken,
         title: `Application ${status}`,
         body: notificationMessage,
       };
 
+      // console.log("notifyConfig:", notifyConfig);
       try {
         await axios.post(
           `${process.env.API_BASE_URL}/pushNotification/send-notification`,

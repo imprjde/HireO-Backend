@@ -99,6 +99,7 @@ export const postToken = async (req, res) => {
   }
 };
 
+// export const sendPushNotification = async (req, res) => {
 //   console.log("send-PUSH-Notification API RUNNING");
 //   const { token, title, body } = req.body;
 //   console.log("REQWBODY:", req.body);
@@ -198,11 +199,11 @@ export const sendPushNotification = async (req, res) => {
     },
   };
 
-  // console.log("message:::", message);
+  console.log("message:", message);
 
   try {
     const response = await admin.messaging().send(message);
-    console.log("PUSH-NOTIFICATION SENT");
+    console.log("---PUSH-NOTIFICATION SENT---");
     return res.status(200).json({
       message: "Push Notification sent successfully",
       data: response,
