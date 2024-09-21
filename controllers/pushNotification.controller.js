@@ -203,7 +203,7 @@ export const sendPushNotification = async (req, res) => {
 
   try {
     const response = await admin.messaging().send(message);
-    console.log("---PUSH-NOTIFICATION SENT---");
+    console.log("-----PUSH-NOTIFICATION SENT-----");
     return res.status(200).json({
       message: "Push Notification sent successfully",
       data: response,
