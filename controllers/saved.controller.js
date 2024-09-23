@@ -10,7 +10,7 @@ export const saveJob = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res.status(400).json({ message: "Failed To Save This Job." });
   }
 };
@@ -28,7 +28,7 @@ export const getSavedJobs = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res
       .status(500)
       .json({ message: "Error Retrieving Your Saved Jobs" });
@@ -45,7 +45,7 @@ export const removeSaved = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res.status(500).json({ message: "Failed To Remove This Job" });
   }
 };

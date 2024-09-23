@@ -1,5 +1,4 @@
 import express from "express";
-import isAuthenticated from "../auth/isAuthenticated.js";
 import {
   postToken,
   sendPushNotification,

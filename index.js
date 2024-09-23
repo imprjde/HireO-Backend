@@ -11,7 +11,6 @@ import applicationRoute from "./routes/application.route.js";
 import savedRoute from "./routes/saved.route.js";
 import notificationRoute from "./routes/notification.route.js";
 import pushNotificationRoute from "./routes/pushNotification.route.js";
-// import firebaseNotificationRoute from "./routes/firebase.route.js";
 
 dotenv.config();
 // connect db
@@ -40,7 +39,6 @@ app.use("/api/v1/application", applicationRoute);
 app.use("/api/v1/saved", savedRoute);
 app.use("/api/v1/notification", notificationRoute);
 app.use("/api/v1/pushNotification", pushNotificationRoute);
-// app.use("/api/v1/firebaseNotification", firebaseNotificationRoute);
 
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);

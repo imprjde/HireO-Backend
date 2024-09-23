@@ -1,15 +1,3 @@
-// import admin from "firebase-admin";
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
-
-// const serviceAccount = require("./firebaseAdminSDK.json");
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
-// export default admin;
-
 import admin from "firebase-admin";
 
 admin.initializeApp({

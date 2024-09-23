@@ -59,7 +59,7 @@ export const getNotification = async (req, res) => {
       data: notifications,
     });
   } catch (error) {
-    console.log("error=", error);
+    console.log("ERROR:", error);
     return res.status(500).json({
       message: "Failed to fetch your notifications.",
       success: false,
@@ -82,7 +82,7 @@ export const getNotificationCount = async (req, res) => {
       data: unseenNotifications,
     });
   } catch (error) {
-    console.log("error=", error);
+    console.log("ERROR:", error);
     return res.status(500).json({
       message: "Failed to fetch your notifications.",
       success: false,
@@ -102,7 +102,7 @@ export const updateHasSeen = async (req, res) => {
       message: "Notification Updated Successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     res.status(500).json({
       message: "Failed to Update Notification",
     });

@@ -29,7 +29,7 @@ export const registerCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res.status(500).json({ error });
   }
 };
@@ -64,7 +64,7 @@ export const getCompany = async (req, res) => {
       .status(200)
       .json({ companies, success: true, totalPages, totalCount });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res
       .status(500)
       .json({ message: "Internal server error", success: false });
@@ -84,7 +84,7 @@ export const getCompanyById = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
   }
 };
 
@@ -130,7 +130,7 @@ export const updateCompanyInformation = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     return res.status(500).json({
       message: "An error occurred while updating company information.",
       success: false,
